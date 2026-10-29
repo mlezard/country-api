@@ -30,6 +30,18 @@ async function create(req, res) {
     }
 }
 
+async function update(req, res) {
+    const name = req.params.name.toLowerCase()
+    try {
+        const country = await Country.getOneByCountryName(name)
+        const result = await country.update(req.body)
+       
+        res.status(200).send(result)
+    } catch(err) {
+        res.status(404).send({error: err.message})
+    }
+}
+
 async function destroy(req, res) {
     try {
         const name = req.params.name
@@ -41,4 +53,4 @@ async function destroy(req, res) {
     }
 }
 
-module.exports = { index, show, create, destroy }
+module.exports = { index, show, create, update, destroy }
